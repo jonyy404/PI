@@ -442,7 +442,15 @@ void somasAc (int v[], int Ac [], int N){
 
 // 39 - 
 
-
+int triSup (int N, int m [N][N]) {
+    int i,j,r=1;
+    for (i=0;i<N;i++) {
+        for (j=0;j<i;j++) {
+            if (m[i][j] != 0) r=0;
+        }
+    }
+    return r;
+}
 
 // 40 - 
 
@@ -457,14 +465,14 @@ void transposta (int N, float m [N][N]) {
     }
 }
 
-46 - 
+// 46 - 
 
-   int cardinalMSet (int N, int v[N]){
-   	  int i,c=0;
-   	  for(i=0;i<N;i++) {
-   	      c += v[i];
-   	  }
-   	  return c;
+int cardinalMSet (int N, int v[N]){
+   int i,c=0;
+   	for(i=0;i<N;i++) {
+   	    c += v[i];
+   	}
+   	return c;
    }
 
 
