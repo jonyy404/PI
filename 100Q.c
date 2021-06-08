@@ -1,4 +1,15 @@
-51 -
+LInt newLInt (int v, LInt t){
+    LInt new = (LInt) malloc (sizeof (struct lligada));
+    
+    if (new!=NULL) {
+        new->valor = v;
+        new->prox  = t;
+    }
+    return new;
+}
+
+
+// 51 
 
 int length (LInt l){
     int r;
@@ -10,7 +21,7 @@ int length (LInt l){
     return r;
 }
 
-52 - 
+// 52 
 
 void freeL (LInt l) {
     while (l != NULL) {
@@ -19,7 +30,7 @@ void freeL (LInt l) {
     }
 }
 
-53 - 
+// 53 
 
 void imprimeL (LInt l) {
     while (l != NULL) {
@@ -28,7 +39,7 @@ void imprimeL (LInt l) {
     }
 }
 
-54 - 
+// 54 
 
 LInt reverseL (LInt l){
     LInt next = NULL;
@@ -43,7 +54,7 @@ LInt reverseL (LInt l){
     	return l;
 }
 
-55 -
+// 55 
 
 void insertOrd (LInt *l, int x){
     LInt aux = *l;
@@ -65,7 +76,7 @@ void insertOrd (LInt *l, int x){
     }
 }
 
-56 -
+// 56 
 
 int removeOneOrd (LInt *l, int x){
     int r=1;
@@ -92,9 +103,10 @@ int removeOneOrd (LInt *l, int x){
     return r;
 }
 
-57 - 
+// 57  
+// 58
 
-59 -
+// 59 
 
 LInt parteAmeio (LInt *l){
     LInt aux = *l;
@@ -120,7 +132,7 @@ LInt parteAmeio (LInt *l){
     return r;
 }
 
-60 -
+// 60 
 
 int removeAll (LInt *l, int x){
     LInt ant;
@@ -136,7 +148,7 @@ int removeAll (LInt *l, int x){
     return c;
 }
 
-61 - 
+// 61  
 
 int removeDups (LInt *l){
     LInt ant = NULL;
@@ -148,4 +160,132 @@ int removeDups (LInt *l){
         l = &((*l)->prox);
     }
     return c;
+}
+
+// 62
+
+int removeMaiorL (LInt *l){
+    LInt aux = (*l);
+    int maior = 0;
+    while (aux != NULL) {
+        if (aux->valor > maior) maior = aux->valor;
+        aux = aux->prox;
+    }
+    removeOneOrd(l,maior);
+    return maior;
+}
+
+// 63
+
+void init (LInt *l){
+    LInt aux = (*l);
+    LInt ant = NULL;
+    while (aux->prox != NULL) {
+        ant = aux;
+        aux = aux->prox;
+    }
+    if (ant != NULL) { ant->prox = NULL; }
+    else (*l) = NULL;
+}
+
+// 64 
+
+void appendL (LInt *l, int x){
+    LInt aux = (*l);
+    LInt novo = newLInt(x,NULL);
+    if (aux == NULL) (*l) = novo;
+    else {
+        while (aux->prox != NULL) {
+            aux = aux->prox;    
+        }
+        aux->prox = novo;
+    }
+}
+
+// 65
+
+void concatL (LInt *a, LInt b){
+    LInt auxdea = *a;
+    if (auxdea == NULL) (*a) = b;
+    else {
+        while (auxdea->prox != NULL) {
+            auxdea = auxdea->prox;
+        }
+        auxdea->prox = b;
+    }
+}
+
+// 66
+
+LInt cloneL (LInt l) {
+    LInt aux =  l;
+    LInt novo;
+    while (aux != NULL) {
+        novo = newLInt(aux->valor,NULL);
+        novo = novo->prox;
+        aux = aux->prox;
+    }
+    return novo;
+}
+
+// 67 
+
+LInt cloneRev (LInt l){
+    LInt prox = NULL, atual;
+    for (prox = NULL ; l !=NULL ; l = l->prox, prox = atual) atual = newLInt(l->valor, prox);
+    return atual;
+}
+
+// 68
+
+int maximo (LInt l){
+    int max = l->valor;
+    while (l != NULL) {
+        if (l->valor > max) max = l->valor;
+        else l = l->prox;
+    }
+    return max;
+}
+
+// 69
+
+int take (int n, LInt *l){
+    int c=0;
+    LInt aux = *l;
+    LInt ant;
+    for (c = 0; aux != NULL && n>0; c++) {
+        n--;
+        ant = aux;
+        aux = aux->prox;
+    }
+    if (aux != NULL) {
+        ant->prox = NULL;
+        free(aux);
+        aux = aux->prox;
+    }
+    return c;
+}
+
+// 70
+
+int drop (int n, LInt *l){
+    LInt aux = *l;
+    int c;
+    for (c=0; aux != NULL && n>0; c++) {
+        n--;
+        free(aux);
+        aux = aux->prox;
+    }
+    (*l) = aux;
+    return c;
+}
+
+// 71 -
+
+LInt NForward (LInt l, int N){
+    while (N > 0) {
+        l = l->prox;
+        N--;
+    }
+    return l;
 }
