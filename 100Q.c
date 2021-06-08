@@ -1,3 +1,8 @@
+typedef struct lligada {
+int valor;
+struct lligada *prox;
+} *LInt;
+
 LInt newLInt (int v, LInt t){
     LInt new = (LInt) malloc (sizeof (struct lligada));
     
@@ -288,4 +293,115 @@ LInt NForward (LInt l, int N){
         N--;
     }
     return l;
+}
+
+// 72
+
+int listToArray (LInt l, int v[], int N){
+    int i;
+    for (i=0; i<N && l; i++) {
+        v[i] = l->valor;
+        l = l->prox;
+    }
+    return i;
+}
+
+// 73 
+
+LInt arrayToList (int v[], int N){
+    int i;
+    LInt l=NULL,aux;
+    for (i=N-1;i>=0;i--) {
+        aux = malloc (sizeof (struct lligada));
+        aux->valor = v[i];
+        aux->prox = l;
+        l = aux;
+    }
+    return l;
+}
+
+// 74
+
+LInt somasAcL (LInt l) {
+    if (l == NULL) return NULL;
+    LInt atual = l;
+	LInt novo = newLInt (atual->valor, NULL);
+	LInt auxnovo = novo;
+	int soma = atual->valor;
+	while (atual->prox != NULL) {
+		atual = atual->prox;
+		soma += atual->valor;
+		auxnovo->prox = newLInt (soma, NULL);
+		auxnovo = auxnovo->prox;
+	}
+	return novo;
+}
+
+// 75 
+
+void remreps (LInt l){
+    LInt ant = NULL;
+    LInt aux = l;
+    int x; 
+    while (aux != NULL) {
+        if (ant == NULL) {
+            x = aux->valor;
+            ant = aux;
+            aux = aux->prox;
+        }
+        else {
+            while (aux != NULL && aux->valor == x) {
+                free(aux);
+                aux = aux->prox;
+            }
+            ant->prox = aux;
+            if (aux != NULL) {
+                ant = aux;
+                x = aux->valor;
+                aux = aux->prox;
+            }
+        }
+    }
+}
+
+// 76
+
+LInt rotateL (LInt l){
+    LInt aux = l;
+    LInt aux2 = NULL;
+    if (l == NULL) return l;
+    if (l->prox == NULL) return l;
+    aux2 = aux->prox;
+    while (l->prox != NULL){
+        l = l->prox;       
+    }
+    l->prox = aux;
+    aux->prox = NULL;
+    return aux2;
+}
+
+// 77
+
+//
+
+typedef struct nodo {
+int valor;
+struct nodo *esq, *dir;
+} *ABin;
+
+
+// 78
+
+int max (int x, int y) {
+    if (x>y) return x;
+    else return y;
+}
+
+int altura (ABin a){
+    int c;
+    if (a == NULL) return 0;
+    else {
+        c = 1 + max(altura(a->esq),altura(a->dir));
+    }
+	return c;
 }
