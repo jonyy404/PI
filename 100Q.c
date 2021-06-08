@@ -405,3 +405,40 @@ int altura (ABin a){
     }
 	return c;
 }
+
+// 79
+
+ABin cloneAB (ABin a) {
+    ABin b;
+    b = (ABin) malloc(sizeof(struct nodo));
+    if (a != NULL) { 
+    b->valor = a->valor;
+    b->esq = cloneAB(a->esq);
+    b->dir = cloneAB(a->dir);
+    }
+    else b = NULL;
+    return b;
+}
+
+// 80
+
+void mirror (ABin *a) {
+    ABin aux;
+    if ((*a) != NULL) {
+    aux = (*a)->esq;
+    (*a)->esq = (*a)->dir;
+    (*a)->dir = aux;
+    mirror(&((*a)->esq));
+    mirror(&((*a)->dir));
+    }
+}
+
+// 85
+
+int freeAB (ABin a) {
+    int c = 0;
+    if (a == NULL) return 0;
+    free(a);
+    c = 1 + freeAB(a->esq) + freeAB(a->dir);
+    return c;
+}
