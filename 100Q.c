@@ -597,3 +597,36 @@ ABin cloneMirror (ABin a) {
     return nova;
 }
 
+// 94
+
+// 95
+
+int lookupAB (ABin a, int x) {
+    int r=0;
+    if (a == NULL) return 0;
+    while (a != NULL) {
+        if (a->valor == x) return 1;
+        else {
+            if (a->valor > x) a = a->esq;
+            else a = a->dir;
+        }
+    }
+    return r;
+}
+
+// 96
+
+int depthOrd (ABin a, int x) {
+    int r=1;
+    while (a != NULL) {
+        if (a->valor == x) return r;
+        else {
+            if (a->valor > x) a = a->esq;
+            else a = a->dir;
+            r++;
+        }
+    }
+    return -1;
+}
+
+// 97 
