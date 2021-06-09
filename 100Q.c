@@ -433,7 +433,7 @@ void mirror (ABin *a) {
     }
 }
 
-// inserefim que é usada no 81,82 e 83 so que na BB nao da certo
+// inserefim que é usada no 81,82 e 83 so que na codeboard nao da certo
 
 void inserefim(LInt *a,int x){
     LInt aux=*a;
