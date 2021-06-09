@@ -571,7 +571,7 @@ int dumpAbin (ABin a, int v[], int N) {
     return c;
 }
 
-// 91 
+// 92
 
 int contaFolhas (ABin a) {
     int c=0;
@@ -583,3 +583,17 @@ int contaFolhas (ABin a) {
     }
     return c;
 }
+
+// 93 
+
+ABin cloneMirror (ABin a) {
+    ABin nova = NULL;
+    if (a != NULL) {
+        nova = malloc(sizeof(ABin));
+        nova->valor = a->valor;
+        nova->esq = cloneMirror(a->dir);
+        nova->dir = cloneMirror(a->esq);
+    }
+    return nova;
+}
+
