@@ -498,6 +498,28 @@ void posorder (ABin a, LInt * l) {
     }
 }
 
+// 84
+
+int depth (Abin a, int x) {
+	int c = 1;
+	if (a == NULL) c =  -1;
+	else if (a->valor == x) {
+		c = 1;
+	}
+	else {
+		int esq = depth (a->esq, x);
+		int dir = depth (a->dir, x);
+	    if (esq == -1 && dir == -1) c = -1;
+		else if (esq == -1 && dir != -1) c += dir;
+		else if (esq != -1 && dir == -1) c += esq;
+		else {
+			if (esq < dir) c += esq;
+			else c += dir;
+		}
+	}
+    return c;
+}
+
 // 85
 
 int freeAB (ABin a) {
@@ -639,7 +661,34 @@ ABin cloneMirror (ABin a) {
 
 // 94
 
+int addOrd (ABin *a, int x) {
+    ABin aux = *a;
+    ABin ant = NULL;
+    while (aux != NULL) {
+        if ( x == aux -> valor)
+            return 1;
+            
+        ant = aux;
+        
+        if ( x > aux -> valor) 
+            aux = aux -> dir;
+        else aux = aux -> esq;
+    }
+    
+    aux = malloc (sizeof (ABin));
+    aux -> valor = x;
+    aux -> esq = aux -> dir =  NULL;
 
+    if (ant == NULL) {
+        (*a) = aux;
+    }
+    else {
+        if (x > ant -> valor)
+            ant -> dir = aux;
+        else ant -> esq = aux;
+    }
+    return 0;
+}
 
 // 95
 
