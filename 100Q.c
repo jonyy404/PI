@@ -433,6 +433,51 @@ void mirror (ABin *a) {
     }
 }
 
+// inserefim que é usada no 81,82 e 83 so que na BB nao da certo
+
+void inserefim(LInt *a,int x){
+    LInt aux=*a;
+    while (aux && aux->prox){
+        aux=aux->prox;
+    }
+    if(aux){
+        aux->prox=newLInt(x,NULL);
+    }
+    else{
+        *a=newLInt(x,NULL);
+    }
+}
+
+// 81
+
+void inorder (ABin a, LInt * l) {
+    if (a != NULL) {
+        inorder(a->esq,l);
+        inserefim(l,a->valor);
+        inorder(a->dir,l);
+    }
+}
+
+// 82 
+
+void preorder (ABin a, LInt * l) {
+    if (a != NULL) {
+        inserefim(l,a->valor);
+        preorder(a->esq,l);
+        preorder(a->dir,l);
+    }
+}
+
+// 83 
+
+void posorder (ABin a, LInt * l) {
+    if (a != NULL) {
+        posorder(a->esq,l);
+        posorder(a->dir,l);
+        inserefim(l,a->valor);
+    }
+}
+
 // 85
 
 int freeAB (ABin a) {
@@ -441,4 +486,32 @@ int freeAB (ABin a) {
     free(a);
     c = 1 + freeAB(a->esq) + freeAB(a->dir);
     return c;
+}
+
+// 86 
+
+int pruneAB (ABin *a, int l) {
+    int c=0;
+    if ((*a) != NULL) {
+         if (l > 0) {
+            c = pruneAB(&((*a)->dir),l-1);
+            c += pruneAB(&((*a)->esq),l-1);
+        }
+         else {
+            free(*a);
+            c = 1 + pruneAB(&((*a)->dir),l-1);
+            c += pruneAB(&((*a)->esq),l-1);
+            (*a) = NULL;
+        }
+    }
+    return r;
+}
+
+// 87 
+
+int iguaisAB (ABin a, ABin b) {
+    if (a != NULL && b == NULL || a == NULL && b != NULL) return 0;
+    else if (a == NULL && b == NULL) return 1;
+    else if (a->valor != b->valor) return 0; 
+    return (iguaisAB(a->esq,b->esq) && iguaisAB(a->dir,b->dir));
 }
