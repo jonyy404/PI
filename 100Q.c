@@ -515,3 +515,71 @@ int iguaisAB (ABin a, ABin b) {
     else if (a->valor != b->valor) return 0; 
     return (iguaisAB(a->esq,b->esq) && iguaisAB(a->dir,b->dir));
 }
+
+// 88 
+
+void adiciona (ABin a, int n, LInt *l) {
+
+	if (a == NULL) return;
+
+	if (n == 1) {
+		*l = newLInt(a->valor, *l);
+	}
+	else {
+		adiciona(a->dir, n-1, l);
+		adiciona(a->esq, n-1, l);
+	}
+}
+
+LInt nivelL (ABin a, int n) {
+
+	LInt novo = NULL;
+	adiciona(a, n, &novo);
+
+	return novo;
+}
+
+// 89
+
+int nivelV (ABin a, int n, int v[]) {
+    int c=0;
+    if (a != NULL) {
+        if (n == 1) {
+            v[0] = a->valor;
+            c = 1;
+        }
+        else {
+            c = nivelV(a->esq,n-1,v);
+            c += nivelV(a->dir,n-1,v+c);
+        }
+    }
+    return c;
+}
+
+// 90
+
+int dumpAbin (ABin a, int v[], int N) {
+    int c = 0;
+    if (a != NULL) {
+        c = dumpAbin (a->esq,v,N);
+        if ((N-c) > 0) {
+            c += 1;
+            v[c] = a->valor;
+            c += dumpAbin(a->dir,v+c,N-c);
+        }
+    }
+    return c;
+}
+
+// 91 
+
+int contaFolhas (ABin a) {
+    int c=0;
+    if (a != NULL) {
+        if (a->esq == NULL && a->dir == NULL) {
+            c = 1;
+        }
+        else c += contaFolhas(a->esq) + contaFolhas(a->dir);
+    }
+    return c;
+}
