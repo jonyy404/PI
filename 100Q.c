@@ -591,14 +591,19 @@ int dumpAbin (ABin a, int v[], int N) {
     return c;
 }
 
-// 91 NAO TA CERTO 
+// 91
+
+int auxsoma (ABin a){
+    if (a == NULL) return 0;
+    return a->valor + auxsoma(a->esq) + auxsoma(a->dir);
+}
 
 ABin somasAcA (ABin a) {
     ABin nova = (ABin) malloc(sizeof(struct nodo));
     int c = 0;
     if (a == NULL) return NULL;
-    while (a != NULL) {
-        c += a->valor;
+    else {
+        c += auxsoma(a);
         nova->valor = c;
         nova->esq = somasAcA(a->esq);
         nova->dir = somasAcA(a->dir);
