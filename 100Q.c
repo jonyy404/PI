@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "listas.h"
+#include "tipos.h"
 
 typedef struct lligada {
 int valor;
