@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "listas.h"
+
 typedef struct lligada {
 int valor;
 struct lligada *prox;
@@ -108,7 +112,23 @@ int removeOneOrd (LInt *l, int x){
     return r;
 }
 
-// 57  
+// 57
+
+void merge (LInt *r, LInt l1, LInt l2){
+    LInt aux = *r;
+    if (l1 == NULL )  aux = l2;
+    else if (l2 == NULL )  aux = l1;
+    else if ( l1->valor > l2->valor) {
+        aux = l2;
+        merge ( &(aux->prox) , l1 ,l2->prox);
+    }
+    else if ( l1->valor <= l2->valor) {
+        aux= l1 ;
+        merge ( &(aux->prox), l1->prox ,l2);
+    }
+    *r = aux;
+}
+
 // 58
 
 // 59 
@@ -433,7 +453,7 @@ void mirror (ABin *a) {
     }
 }
 
-// inserefim que é usada no 81,82 e 83 so que na codeboard nao da certo
+// insere fim (usado no 81, 82, 83)
 
 void inserefim(LInt *a,int x){
     LInt aux=*a;
@@ -571,6 +591,21 @@ int dumpAbin (ABin a, int v[], int N) {
     return c;
 }
 
+// 91 NAO TA CERTO 
+
+ABin somasAcA (ABin a) {
+    ABin nova = (ABin) malloc(sizeof(struct nodo));
+    int c = 0;
+    if (a == NULL) return NULL;
+    while (a != NULL) {
+        c += a->valor;
+        nova->valor = c;
+        nova->esq = somasAcA(a->esq);
+        nova->dir = somasAcA(a->dir);
+    }
+    return nova;
+}
+
 // 92
 
 int contaFolhas (ABin a) {
@@ -598,6 +633,8 @@ ABin cloneMirror (ABin a) {
 }
 
 // 94
+
+
 
 // 95
 
@@ -630,3 +667,78 @@ int depthOrd (ABin a, int x) {
 }
 
 // 97 
+
+int maiorAB (ABin a) {
+    int maior = 0;
+    if (a == NULL) return 0;
+    while (a->dir != NULL) a = a->dir;
+    maior = a->valor;
+    return maior;
+}
+
+// 98
+
+void removeMaiorA (ABin *a) {
+    ABin aux = *a;
+    ABin ant = NULL;
+    while (aux->dir != NULL) {
+        ant = aux;
+        aux = aux->dir;
+    }
+    if (ant == NULL) (*a) = (*a)->esq;
+    else ant->dir = aux->esq;
+}
+
+// 99
+
+int quantosMaiores (ABin a, int x) {
+    int c=0;
+    if (a == NULL) return;
+    if (a->valor > x) c = (1 + quantosMaiores(a->dir,x) + quantosMaiores(a->esq,x));
+    else c = (quantosMaiores(a->dir,x));
+    return c;
+}
+
+// 100
+
+void listToBTree (LInt l, ABin *a) {
+	if (l == NULL) {
+		*a = NULL;
+		return;
+	}
+	LInt dir = parteAMeio (&l);
+	*a = newABin (dir->valor, NULL, NULL);
+	listToBTree (l, &(*a)->esq);
+	listToBTree (dir->prox, &(*a)->dir);
+
+	return;
+}
+
+// 101
+
+int procuraMenor (ABin a, int x) {
+	int r;
+	if (a == NULL) r = 0;
+	else if (a->valor < x) r = 1;
+	else if (procuraMenor (a->esq, x) == 1 || procuraMenor (a->dir, x) == 1) r = 1;
+	else r = 0;
+    return r;
+}
+
+int procuraMaior (ABin a, int x) {
+	int r;
+	if (a == NULL) r = 0;
+	else if (a->valor > x) r = 1;
+	else if (procuraMaior (a->esq, x) == 1 || procuraMaior (a->dir, x) == 1) r = 1;
+	else r = 0;
+	return r;
+}
+
+int deProcura (ABin a) {
+	int r;
+	if (a == NULL) r = 1;
+	else if (procuraMaior (a->esq, a->valor) == 1 || procuraMenor (a->dir, a->valor) == 1) r = 0;
+	else if (deProcura (a->esq) == 0 || deProcura (a->dir) == 0) r = 0;
+	else r = 1;
+	return r;
+}
